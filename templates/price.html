@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прайс-лист - Клиника Visus</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../image/logo.png">
+    <style>
+        .price-header {
+            padding: 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .price-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .price-content {
+            padding: 60px 0;
+        }
+        .price-image {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+        .logoo{
+            width: 50%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="header">
+        <div class="container">
+            <!-- Top bar -->
+            <div class="header-top">
+                <div class="header-info">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Пн-Пт: 9:00 - 18:00, Сб: 9:00 - 13:00</span>
+                </div>
+                <div class="header-contact">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <a href="tel:+998909499721">+998 90 949-97-21</a>
+                    <span class="divider">|</span>
+                    <a href="tel:+998978851058">+998 97 885-10-58</a>
+                </div>
+            </div>
+
+            <!-- Main navigation -->
+            <div class="header-main">
+                <div class="logo">
+                    <img src="../image/logo.png" style="width: 70%; height: auto;" alt="Visus Medical" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </div>
+
+                <nav class="nav desktop-nav">
+                    <a href="../index.html#hero">Главная</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-dropdown-btn">
+                            Заболевания и лечение
+                            <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown-menu">
+                            <a href="articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a>
+                            <a href="articles/rheumatoidArthritis.html">Ревматоидный артрит</a>
+                            <a href="articles/helminthiasis.html">Гельминтоз</a>
+                            <a href="articles/rheumatism.html">Ревматизм</a>
+                            <a href="articles/polyarthritis.html">Полиартрит</a>
+                            <a class="active" href="price.html">Прайс-лист</a>
+                        </div>
+                    </div>
+                    <a href="about.html">О клинике</a>
+                    <a href="specialist.html">Специалисты</a>
+                    <a href="feedback.html">Отзывы</a>
+                    <a href="blog.html">Блог</a>
+                    <a href="appointment.html">Контакты</a>
+                </nav>
+
+                <a class="btn btn-primary desktop-btn" href="appointment.html">Записаться на приём</a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        
+    </header>
+
+    <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <nav class="mobile-nav">
+                <a href="../index.html#hero" class="mobile-nav-link">Главная</a>
+                
+                <div class="mobile-nav-section">
+                    <div class="mobile-nav-title">Заболевания и лечение</div>
+                    <a href="articles/echinococcosis.html" class="mobile-nav-sub">Эхинококкоз и Альвеококкоз</a>
+                    <a href="articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
+                    <a href="articles/helminthiasis.html" class="mobile-nav-sub">Гельминтоз</a>
+                    <a href="articles/rheumatism.html" class="mobile-nav-sub">Ревматизм</a>
+                    <a href="articles/polyarthritis.html" class="mobile-nav-sub">Полиартрит</a>
+                </div>
+                
+                <a href="about.html" class="mobile-nav-link">О клинике</a>
+                <a href="specialist.html" class="mobile-nav-link">Специалисты</a>
+                <a href="feedback.html" class="mobile-nav-link">Отзывы</a>
+                <a href="blog.html" class="mobile-nav-link">Блог</a>
+                <a href="appointment.html" class="mobile-nav-link">Контакты</a>
+                
+                <a href="appointment.html" class="btn btn-primary">Записаться на приём</a>
+                
+                <div class="mobile-contacts">
+                    <a href="tel:+998909499721">+998 90 949-97-21</a>
+                    <a href="tel:+998978851058">+998 97 885-10-58</a>
+                </div>
+            </nav>
+        </div>
+
+    <main class="price-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Прайс-лист</h2>
+                <p>Актуальные цены на услуги нашей клиники. Для получения подробной информации свяжитесь с нами.</p>
+            </div>
+            <img src="../image/price.jpg" 
+                 alt="Прайс-лист клиники Visus" 
+                 class="price-image">
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand -->
+                <div class="footer-brand">
+                    <img src="../image/logo.png" style="width: 50%; height: auto;" alt="Visus Medical" class="footer-logo" onerror="this.style.display='none'">
+                    <p class="footer-description">
+                        Специализируемся на лечении паразитарных заболеваний и ревматологических недугов. Уникальные авторские методики под контролем дипломированных врачей. 11 лет успешной практики.
+                    </p>
+                    <div class="footer-contacts">
+                        <p class="contact-title">Контакты:</p>
+                        <p><a href="tel:+998909499721">+998 90 949-97-21</a></p>
+                        <p><a href="tel:+998978851058">+998 97 885-10-58</a></p>
+                        <p><a href="mailto:info@visus-med.uz">info@visus-med.uz</a></p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.46 6c-.85.38-1.77.64-2.75.76 1-.59 1.76-1.53 2.13-2.64-.93.55-1.96.95-3.06 1.17C17.96 4.42 16.9 4 15.75 4a4.85 4.85 0 0 0-4.84 4.84c0 .38.04.75.12 1.1-4.02-.2-7.59-2.13-9.97-5.05a4.83 4.83 0 0 0 1.5 6.47 4.8 4.8 0 0 1-2.19-.61v.06c0 2.35 1.67 4.31 3.88 4.75-.4.11-.83.17-1.28.17-.31 0-.62-.03-.92-.08.62 1.94 2.43 3.35 4.58 3.39a9.72 9.72 0 0 1-6.02 2.07c-.39 0-.78-.02-1.17-.07A13.7 13.7 0 0 0 9.44 22c8.94 0 13.83-7.41 13.83-13.83 0-.21 0-.42-.01-.63.96-.69 1.79-1.55 2.44-2.53z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-links">
+                    <h4>Специализация</h4>
+                    <ul>
+                        <li><a href="articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a></li>
+                        <li><a href="articles/rheumatoidArthritis.html">Ревматоидный артрит</a></li>
+                        <li><a href="articles/helminthiasis.html">Гельминтоз</a></li>
+                        <li><a href="articles/rheumatism.html">Ревматизм</a></li>
+                        <li><a href="articles/giardiasis.html">Лямблиоз и др. паразиты</a></li>
+                    </ul>
+                </div>
+
+                <!-- Info -->
+                <div class="footer-links">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="about.html">О клинике</a></li>
+                        <li><a href="specialist.html">Наши специалисты</a></li>
+                        <li><a href="../index.html#services">Методики лечения</a></li>
+                        <li><a href="blog.html">Блог</a></li>
+                    </ul>
+                </div>
+
+                <!-- Patients -->
+                <div class="footer-links">
+                    <h4>Пациентам</h4>
+                    <ul>
+                        <li><a href="appointment.html">Как записаться</a></li>
+                        <li><a href="../index.html#services">Подготовка к приёму</a></li>
+                        <li><a href="../index.html#services">Программы лечения</a></li>
+                        <li><a href="feedback.html">Отзывы</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="footer-bottom">
+                <p>© 2025 Visus Medical. Все права защищены.</p>
+                <div class="footer-legal">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+
+</body>
+</html>

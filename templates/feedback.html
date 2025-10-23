@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы пациентов - Клиника Visus</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../image/logo.png">
+    <style>
+        /* Стили, специфичные для страницы отзывов */
+        .reviews {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        }
+
+        .reviews-other {
+            background: var(--white);
+            padding-top: 30px;
+        }
+
+        /* Карточка отзыва с несколькими абзацами */
+        .review-text+.review-text {
+            margin-top: 16px;
+        }
+
+        /* Стили для блока CTA */
+        .review-cta {
+            padding: 60px 0;
+            background: var(--bg-light);
+        }
+
+        .review-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-cta-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .review-cta-content p {
+            font-size: 16px;
+            color: var(--text-gray);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        /* Иконки соцсетей из футера */
+        .cta-social-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .cta-social-links .social-link {
+            width: 44px;
+            height: 44px;
+            background: #f3f4f6;
+            color: var(--text-gray);
+        }
+
+        .cta-social-links .social-link:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+    </style>
+
+    <style>
+        /* ...existing code... */
+
+        /* --- NEW: улучшенный дизайн для секции отзывов и формы --- */
+        .review-cta-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 36px;
+            background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(12, 40, 80, 0.06);
+        }
+
+        /* Формы */
+        .review-cta-content form {
+            text-align: left;
+            display: block;
+            gap: 12px;
+        }
+
+        .review-cta-content label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .review-cta-content input[type="text"],
+        .review-cta-content input[type="email"],
+        .review-cta-content select,
+        .review-cta-content textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            font-size: 15px;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            transition: box-shadow .15s ease, border-color .12s ease, transform .06s ease;
+        }
+
+        .review-cta-content input:focus,
+        .review-cta-content select:focus,
+        .review-cta-content textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.12);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        /* Двухколоночный ряд (адаптивный) */
+        .review-cta-content .row,
+        .review-cta-content>div[style*="display:flex"] {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .review-cta-content .row>label,
+        .review-cta-content>div[style*="display:flex"] label {
+            flex: 1 1 200px;
+        }
+
+        /* Кнопки */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 10px 30px rgba(3, 105, 161, 0.12);
+        }
+
+        .btn {
+            transition: transform .06s ease, box-shadow .12s ease, opacity .12s ease;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn[disabled] {
+            opacity: .6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Сообщения успеха/ошибки */
+        #feedbackFormMsg {
+            display: none;
+            max-width: 720px;
+            margin: 14px auto 0;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        #feedbackFormMsg.ok {
+            display: block;
+            background: #e6ffed;
+            border: 1px solid #c7f0d0;
+            color: #0b6a2b;
+        }
+
+        #feedbackFormMsg.err {
+            display: block;
+            background: #fff1f0;
+            border: 1px solid #f5c6cb;
+            color: #b00020;
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0 14px;
+            color: var(--primary);
+        }
+
+        .rating svg.star {
+            width: 18px;
+            height: 18px;
+            opacity: .95;
+        }
+
+        /* Меньшие экраны */
+        @media (max-width: 880px) {
+            .review-cta-content {
+                padding: 20px;
+            }
+
+            .review-cta-content .row,
+            .review-cta-content>div[style*="display:flex"] {
+                flex-direction: column;
+            }
+
+            .review-cta-content .container {
+                padding: 0 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .btn {
+                width: 100%;
+            }
+
+            .review-cta-content .actions {
+                flex-direction: column-reverse;
+                gap: 10px;
+            }
+        }
+
+        /* Маленькие визуальные улучшения */
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="header-info">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Пн-Пт: 9:00 - 18:00, Сб: 9:00 - 13:00</span>
+                </div>
+                <div class="header-contact">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                        </path>
+                    </svg>
+                    <a href="tel:+998909499721">+998 90 949-97-21</a>
+                    <span class="divider">|</span>
+                    <a href="tel:+998978851058">+998 97 885-10-58</a>
+                </div>
+            </div>
+
+            <div class="header-main">
+                <a href="../index.html" class="logo">
+                    <img src="../image/logo.png" style="width: 70%; height: auto;" alt="Visus Medical" class="logo-img"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </a>
+
+                <nav class="nav desktop-nav">
+                    <a href="../index.html#hero">Главная</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-dropdown-btn">
+                            Заболевания и лечение
+                            <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown-menu">
+                            <a href="articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a>
+                            <a href="articles/rheumatoidArthritis.html">Ревматоидный артрит</a>
+                            <a href="articles/helminthiasis.html">Гельминтоз</a>
+                            <a href="articles/rheumatism.html">Ревматизм</a>
+                            <a href="articles/polyarthritis.html">Полиартрит</a>
+                            <a href="price.html">Прайс-лист</a>
+                        </div>
+                    </div>
+                    <a href="about.html">О клинике</a>
+                    <a href="specialist.html">Специалисты</a>
+                    <a href="feedback.html">Отзывы</a>
+                    <a href="blog.html">Блог</a>
+                    <a href="appointment.html">Контакты</a>
+                </nav>
+
+                <a href="appointment.html" class="btn btn-primary desktop-btn">Записаться на приём</a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        
+    </header>
+
+    <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <nav class="mobile-nav">
+                <a href="../index.html#hero" class="mobile-nav-link">Главная</a>
+
+                <div class="mobile-nav-section">
+                    <div class="mobile-nav-title">Заболевания и лечение</div>
+                    <a href="articles/echinococcosis.html" class="mobile-nav-sub">Эхинококкоз и Альвеококкоз</a>
+                    <a href="articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
+                    <a href="articles/helminthiasis.html" class="mobile-nav-sub">Гельминтоз</a>
+                    <a href="articles/rheumatism.html" class="mobile-nav-sub">Ревматизм</a>
+                    <a href="articles/polyarthritis.html" class="mobile-nav-sub">Полиартрит</a>
+                </div>
+
+                <a href="about.html" class="mobile-nav-link">О клинике</a>
+                <a href="specialist.html" class="mobile-nav-link">Специалисты</a>
+                <a href="feedback.html" class="mobile-nav-link">Отзывы</a>
+                <a href="blog.html" class="mobile-nav-link">Блог</a>
+                <a href="appointment.html" class="mobile-nav-link">Контакты</a>
+
+                <a href="appointment.html" class="btn btn-primary">Записаться на приём</a>
+
+                <div class="mobile-contacts">
+                    <a href="tel:+998909499721">+998 90 949-97-21</a>
+                    <a href="tel:+998978851058">+998 97 885-10-58</a>
+                </div>
+            </nav>
+        </div>
+
+    <main>
+        <section id="featured-reviews" class="reviews">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Отзывы наших пациентов</h2>
+                    <p>Реальные истории людей, которые доверились нам и победили болезнь.</p>
+                </div>
+
+                <div class="reviews-featured">
+                    <div class="video-review-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="video-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                                <p>Видео отзыв</p>
+                                <span>Нажмите для просмотра</span>
+                            </div>
+                            <div class="video-badge">ВИДЕО</div>
+                        </div>
+                        <div class="review-info">
+                            <div class="reviewer-info">
+                                <div class="avatar">АМ</div>
+                                <div>
+                                    <h4>Азиз Мирзаев</h4>
+                                    <p class="review-date">20 октября 2025</p>
+                                </div>
+                            </div>
+                            <div class="rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                            <p class="review-text">Лечился от бычьего цепня. Очень благодарен врачам клиники за
+                                эффективное лечение!</p>
+                        </div>
+                    </div>
+
+                    <div class="reviews-grid-small">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <div class="avatar">КС</div>
+                                    <div>
+                                        <h4>Ксения</h4>
+                                    </div>
+                                </div>
+                                <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path
+                                        d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                    </path>
+                                    <path
+                                        d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                            <p class="review-text">Здравствуйте, меня зовут Ксения . Хочу выразить огромную
+                                благодарность Ли Эльфрентию Хинчановичу. 2 года назад у меня был выбор лечится
+                                медикаментозным методом либо оперироваться . А именно лечится медикаментозным методом у
+                                Ли. Э.Х. Я наверное думала месяц лечится или оперироваться , но я больше поверила
+                                хирургам так как все хирурги говорили что эхинокк выводится только операционным путём .
+                                И к большому сожалению я сделала операцию, два месяца я восстанавливалась после операции
+                                . Думала что весь ужас закончился . Через год после операции опять начались такие же
+                                симптомы , аллергия по всему телу и боль в правом подреберье и плюс к этому появился
+                                кашель. Сделали мрт , эхинококкоз обнаружили на печени и на легких . Про операцию я уже
+                                не думала . Позвонила к Э. Х договорились о встрече . Начала принимать эти препараты ,
+                                через месяц я стала кашлять и выплевывать слизистую кровяную оболочку испугалась
+                                позвонила к врачу . Врач меня успокоил и сказал чтоб я не переживала . Таким образом
+                                через кашель Эхинок. Выходит . Через 6 месяцев прошла мрт в заключение было написано на
+                                печени некоторые кисты были погибшие , а на легкие осталось малая часть . Хоть мое
+                                лечение ещё продолжается и эхин.кисты ещё до конца не погибли я увидела положительные
+                                результаты и уверенна что полностью выздоровлю.</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <div class="avatar">ФА</div>
+                                    <div>
+                                        <h4>Фарход</h4>
+                                        <p class="review-date">г. Ташкент</p>
+                                    </div>
+                                </div>
+                                <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path
+                                        d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                    </path>
+                                    <path
+                                        d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                            <p class="review-text">Здравствуйте, хочу сказать спасибо за то, что вылечили от лямблии.
+                                Меня зовут Фарход. В 2015 году у меня часто стал болеть живот и ещё болело с правой
+                                стороне. Я подумал, что печень проблема. Сделал УЗИ печен нармальна была. Врач отправил
+                                проверяца на глисты. Сдал анализ сказали лямблий. Мне написали лекарства я их пил 2
+                                недели из за них у меня стала балет голава и пастаянна тошнить. Моего друга сестра
+                                болела оказывается когда то ихинакок друг сказал что в Ташкенте народный целитель
+                                лекарством вылечил и сказал если что ему обращаца. В то время он дома принимал я приехал
+                                он смотрел анализы и сказал что 1 месяц надо пить лекарство которое мне даст. Какой то
+                                красное лекарство дал один раз утром я пил. Сейчас хорошо Худога Шукур. Рахмат!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="other-reviews" class="reviews reviews-other">
+            <div class="container">
+                <div class="reviews-grid-small">
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">АН</div>
+                                <div>
+                                    <h4>Аноним</h4>
+                                    <p class="review-date">г. Ташкент</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте! Хочу выразить глубокую благодарность врачу клиники visus
+                            med Евгению Ли. Моему сыну 30 лет. Много лет назад мы сдавали анализы и врачи обнаружили у
+                            него лямблиоз. Конечно же, пили очень много лекарств, горечи но полностью вывести никак не
+                            удавалось</p>
+                        <p class="review-text">Здоровье особо не беспокоило,кроме того, что он периодически покашливал
+                            длительно. Я не связывала этот кашель с глистами. Ходили на приём к пульмонологам,
+                            аллергологам - никакого результата! Потом в интернете случайно наткнулась на информацию о
+                            связи кашель - глисты. Опять принимать хим препараты не хотелось. И опять же, в интернете
+                            нашла данные о visus med</p>
+                        <p class="review-text">Лекарство, конечно, неприятное.Но если зажать нос 2 мя пальцами,
+                            выдохнуть, залпом выпить и закусить лимоном - то очень даже терпимо. Пили вместе с сыном 1
+                            месяц, так как у меня тоже обнаружился лямблиоз. В итоге анализы в норме. У меня улучшилось
+                            общее состояние, раньше беспокоил кишечник. У сына пока! ( тьфу-тьфу) нет кашля! Евгений,
+                            большое вам спасибо! Крепкого здоровья и успехов в жизни!!!</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СВ</div>
+                                <div>
+                                    <h4>Сафронов Владимир</h4>
+                                    <p class="review-date">г. Ташкент</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Я, Сафронов Владимир, в 2004 году стали беспокоить боли в области печени.
+                            В результате обследования обнаружили эхинококкоз печени, в том же году была сделана
+                            операция.Через 6 месяцев посоветовали сделать рентген легких!выявили образование 2 х кист. О
+                            второй операции думать даже не хотелось,так как организм ещё даже не оправился от первой
+                            операции.Хирург который сам оперировал меня,видя мое состояние сам посоветовал мне
+                            обратиться к народному целителю,который якобы,он(хирург)слышал,что есть пациенты которых он
+                            полностью вылечил с помощью своего лекарства.Если честно,для меня это было ударом,я
+                            подумал,неужели настолько всё плохо,если сам врач отправляет меня к народному целителю!В
+                            итоге ,месяц я пил лекарство которое он мне дал,через месяц стал кашлять и отхаркивать как я
+                            понял потом этих червей,но в тот момент,я с ужасом подумал,что легкие мои разлагаются!После
+                            такого зрелища,на следующий день я помчался делать рентген,результаты показали что
+                            киста,которая была не большая исчезла полностью ,а вторая значительно уменьшилась в
+                            размере.Большое спасибо теперь уже клинике «Visus».</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">АН</div>
+                                <div>
+                                    <h4>Аноним</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте ,4 года назад,у меня на теле,стали появляться какие то белые
+                            пятна,которые неожиданно исчезали сами по себе.По началу я думал,что это аллергия,потому что
+                            очень сильно они проявлялись именно тогда,когда я употреблял спиртное,будь то водка или
+                            пиво.Вот так я мучился с этими пятнами около года.В больницу не ходил,пошёл сдавать на
+                            глисты только тогда когда стал худеть.Почему сдал сразу на глисты,потому что коллега с
+                            которым я работал,с уверенностью утверждал что это лямблии.Он оказался прав!В больницу к
+                            врачам лечиться я не ходил,Так как этот же коллега,сразу же направил меня к народному
+                            целителю д Элик он его тогда назвал)Лекарство конечно неприятное и немного подташнивало,пил
+                            ровно месяц,но как мне сказали ,что пить буду месяц для того чтобы быть уверенным что
+                            лямблии выведены.Оказывается лямблии очень тяжело выводятся,якобы был бы другой вид
+                            глистов,тогда можно было бы и 2 недели пропить.На этом моя история с глистами
+                            закончилась))))д Эльфрентий спасибо Вам.Всего Вам доброго))</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ВИ</div>
+                                <div>
+                                    <h4>Виктория</h4>
+                                    <p class="review-date">г. Ташкент</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте, меня зовут Виктория, хочу сказать большое спасибо
+                            специалистам клиники Visus-Med за помощь в лечении аллергии, которой страдала долгие годы и
+                            получила лекарственную зависимость, в следствии чего снизился иммунитет. А всего лишь нужно
+                            было правильно диагностировать и вылечить гельминтов, в моем случае таких паразитов, как
+                            лямблии.</p>
+                        <p class="review-text">На протяжении многих лет я страдала сильной аллергией, кожа покрывалась
+                            красными выпуклыми пятнами, которые чесались и зудели. Постоянные диеты и прочие ограничения
+                            в питании, очень влияли на эмоциональное состояние, но должных не давали. Аллергия то
+                            отступала, то возвращалась. Прием медикаментов помогал лишь на время. Аллергия перешла в
+                            стадию астмы, и без приема антигистаминных не обходился даже день. Их постоянных прием
+                            привел к общему снижению иммунитета.</p>
+                        <p class="review-text">Благодаря подруге я узнала о клинике Visus. Честно сказать, никогда не
+                            думала, что обращусь к народной медицине. Но я уже прошла все круги лечения традиционной
+                            медицины, потратила немыслимые суммы на обследования, и к счастью, решила обратиться к
+                            народным целителям. Лечение длилось 4 недели, во время которого меня немного подташнивало,
+                            но как сказали в клинике все это в пределах нормы. После лечения я забыла об антигистаминных
+                            препаратах, ограничений в еде и в целом общее состояние стало гораздо лучше! Всего лишь
+                            нужно было вывести паразитов лямблий) Спасибо Вам Огромное!</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ЗР</div>
+                                <div>
+                                    <h4>Земфира Рашидовна</h4>
+                                    <p class="review-date">г. Ташкент</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте ,я Земфира Рашидовна 1965 года .Хочу выразить благодарность
+                            Ли Эльфрентию Хынчановичу .в 2012 году перенесла операцию эхинококк печени , через два года
+                            стало болеть в правом подреберье . Поехала на узи печени , вновь появилось две кисты . В
+                            2014 году перенесла вторую операцию. Через три года началось все по новому . Уже опустила
+                            руки, так как поняла что операцию делать смысла нет .стала искать в интернете как можно
+                            вылечить эхинококк без операции. Наткнулась на клинику "visus med" позвонила , записалась на
+                            консультацию . Если честно не внушили доверия , так как все врачи говорят что только
+                            операционным путём удаляются кисты эхинококка . Но все таки решила рискнуть , так как выбора
+                            уже не было а на третью операцию я уже не решалась . Я пропила 5 курсов . Ли Э.Х мне сказал
+                            чтоб после второго курса сделала узи. После второго курса пошла на узи , по снимкам узи на 2
+                            см киста уменьшилась . Моего счастья не было предела. 1,2 курса пила и сомневалась . 3,4,5
+                            курс пила как самый вкусный и полезный компот ?. Прошла полный курс лечения .Потом сняла узи
+                            печени, оказалась чистая . В 2020 году ходила повторно на узи так уже был страх что эхинок
+                            может опять появится , все было чисто . Спасибо вам доктор Ли Эльфрентий Хынчанович .</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СВ</div>
+                                <div>
+                                    <h4>Светлана</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте мое имя Светлана . Хочу поблагодарить врача Эльфрентия
+                            Хынчановича. В 2002 году обнаружили у мужа эхинококкоз печени ,сделали операцию . Операция
+                            была длительная и сложная , слава Богу прошла успешна. Муж после операции восстанавливался
+                            четыре месяца . Врач который оперировал , сразу предупредил что нет гарантии что через какое
+                            то время не появится эхинок. Но мы надеялись что будет первая и последняя операция . Через 6
+                            месяцев пошли на узи . В итоге эхинок был обнаружен на легких . Муж сказал что не будет
+                            делать операцию так как не выдержит . Стала искать нетрадиционны методы лечения не смотреть
+                            же как муж умирает . Нашла клинику "Visus med" позвонила нам объяснили метод лечения .
+                            Прошли 3 курса . После второго курса муж начал выплевывать через кашель похожих на червей и
+                            яйца красного цвета. Эльфрентий Хынчанович сказал что это хорошо . Организм отчищается от
+                            этих паразитов . После трёх курсов сделали узи , и в лёгких не было эхинок . Мы всей семье
+                            благодарим за то что вы сохранили жизнь моего мужа.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СР</div>
+                                <div>
+                                    <h4>Садыкова Рано Султановна</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Я Садыкова Рано Султановна , хочу поблагодарить Эльфрентия
+                            Хинчанчановича!!!!! Перенесла две операции на эхинококкоз печени. Благодаря Эльфрентию
+                            Хинчановича избавилась от этой страшной болезни без операции .</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ИН</div>
+                                <div>
+                                    <h4>Индира</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте , я Индира 1999 года . Низкий поклон Эльфрентию Хынчановичу
+                            , за то что избавил от последующей операции . Мне сделали операцию в 2018 году «эхинококкоз
+                            печени « после операции врач рекомендовал пить «альбендазол « через год сделали к.т печени и
+                            опять появился эхинококк . Нашли клинику в интернете “Visus med” прошла 4 курса и полностью
+                            очистилась от этих паразитов .</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">РТ</div>
+                                <div>
+                                    <h4>Рустам Тулкунович</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Меня зовут Рустам Тулкунович . В 2017 году у меня был обнаружен
+                            эхинококкоз печени. Лопнула киста. Произошло обсеменение кисты . больше 9 штук. Знакомые
+                            порекомендовали клинику “Visus med"я сразу позвонил и записался на приём . Прошел 5 курсов
+                            лечения и выздоровел. Выражаю огромную благодарность Эльфрентию Хынчановичу.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ПЛ</div>
+                                <div>
+                                    <h4>Пак Людмила</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здравствуйте , я Пак Людмила хочу поблагодарить Эльфрентия Хынчановича
+                            !!!В 2019 году у моего сына обнаружили три эхин.кисты на печение . Врачи говорили что надо
+                            делать операцию . Начала читать в интернете про эту болезнь , как поняла что люди сделавшие
+                            операцию повторно заболевают . Стала искать другие методы лечения , в интернете нашла
+                            клинику" Visus med" . Позвонила в клинику мне подробно рассказали о лечении . Я
+                            воспользовалась этим лечением хотя не поверила , но я надеялась на чудо . через несколько
+                            месяцев у моего сына эхин.кисты исчезли . Спасибо вам большое что помогли избежать операцию
+                            и мой сын сейчас здоров .</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">АА</div>
+                                <div>
+                                    <h4>Апаханова Акманат Мендыгалиевна</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Меня зовут Апаханова Акманат Мендыгалиевна , 1970 года рождения .
+                            Заразилась где то думаю цепнем, начала болеть примерно три года назад причем заболела
+                            настолько что похудела до 48 кг, очень плохо себя чувствовала. Первый вопрос в голове что не
+                            дотяну до лета, попрощалась с детьми, обьяснила свое состояние. Случайно узнала о лекарстве
+                            Эльфрентия Хынчановича из Узбекистана, нашла телефон врача и позвонила, мне доставили
+                            лекарство Евгения Эльфрентиевича от эхинококкоза и вообще от всех видов паразитов. Пью
+                            лекарство уже более двух лет, за этот период я набрала вес до 62 кг , пришла почти в прежнее
+                            состояние. Лекарство очень сильное, противопаразитарное, которому нет аналогов. Буквально
+                            вытащило меня из предсмертного состояния. Пью по 40 г натощак утром где-то в 4.00 утра.
+                            Лекарство дает мне вожможность жить полноценной жизнью, ощущать себя здоровым человеком и я
+                            давно перестала думать о смерти. Видимо оно действует постепенно паралилизует паразитов,
+                            угнетает их жизнедеятельность, не дает возможности размножаться, истребляя все личинки и их
+                            яйца. Убивает и переваривает взрослую особь. Уникальность лекарства в том, что совершенно не
+                            вредит другим органам. Хочу сказать большое спасибо Эльфрентий Хынчанович за Ваше уникальное
+                            лекарство. Спасибо большое за Ваше лекарство Дай Бог Вам и Вашей семье долголетия, счастья и
+                            благополучия.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ИГ</div>
+                                <div>
+                                    <h4>Игорь</h4>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Хочу написать несколько слов о медоте доктора Эльфрентия Хынчановича,у
+                            меня эхинококкоз печени и лёгкого лечусь более полугода на втором курсе началось улучшения
+                            из лёгких стали выходить погибшие паразиты,сейчас по словам доктора который излечил много
+                            больных сказал что близок к выздоровлению.в целом скажу что лечением доволен доктор и его
+                            сын Евгений всегда на связи и на все вопросы отвечают.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">ИС</div>
+                                <div>
+                                    <h4>Исламбек</h4>
+                                    <p class="review-date">Кыргызстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Меня зовут Исламбек, я из Кыргызстана. 2019 году у меня на правом легком
+                            обнаружили несколько кист эхинококкоза.Я поехал в Алмату на операцию. После операции через
+                            год я вновь поехал в Алмату на обследование,и тут врачи сказали что надо еще одну операцию
+                            сделать ,вновь пришлось мне лечь под нож .После операции врач сказал мне что надо было и на
+                            печени походу сделать операцию но по договору была только операция на легкие, поэтому они не
+                            тронули мою печень .Я им сказал что надо было сразу и на печень сделать раз уже разрезали но
+                            они работают только по договору.Я очень расстроился и уехал домой .Пройдя немного времени я
+                            случайно наткнулся на объявление о том что эту болезнь можно вылечить без операции .Но я не
+                            поверил и все таки поехал в Ташкент чтобы лично посмотреть на этого чудо врача и
+                            побеседовать с ним .Его звали Ли Эльфрентии Хынчанович.Он обследовал меня и дал мне
+                            лекарства приготовленный своим собственным методом.</p>
+                        <p class="review-text">Получив рекомендацию приема этого лекарства начал пить .После 8 месяцев
+                            на всякии случай решил пойти на узи чтобы в начале осмотрели печень.Ведь врачи не стали
+                            оперировать ссылаясь на договор.И вот результат узи показал что моя печень абсолютно чистая
+                            .Я в начале подумал что врач шутит но нет держу бумажку с результатом да и врач удивленно
+                            смотрит на меня ,я говорю что там должна быть киста эхинококкоза но нет абсолютно чистая
+                            печень.Я и сейчас любому человеку который за свой счет оплатит готов снятся и показать
+                            результат .Я вышел и сразу позвонил врачу Ли Хынчановичу и так благодарил его наверное целый
+                            час .Позже снялся на томографии чтобы проверить легкие , вновь блестящий результат ,на
+                            снимке видны следы от операции но куда подевались эти паразиты? Ли Хынчанович больше чем
+                            врач-академик у меня от этих эмоции наверное от радости впервые плакал аж два часа.Конечно
+                            это воля всевышнего а Хынчанович всего лишь ассистент.Я оставляю номер телефона готов
+                            бесконечно рассказывать вот такую свою удивительную историю лечение у одного из лучших
+                            врача-академика мира Ли Хынчановича Эльфрентия. С уважением Исламбек из Кыргызстана.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">АК</div>
+                                <div>
+                                    <h4>Акмарал</h4>
+                                    <p class="review-date">Казахстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Меня зовут Акмарал, мне 23 года. Я из Казахстана.
+                        <p class="review-text">Все началось неожиданно — 5 февраля 2024 года во время занятия я
+                            почувствовала резкую боль под правым ребром. Позже мой желудок совсем перестал принимать
+                            пищу — всё съеденное я тут же вырвала. Тогда пришлось вызывать скорую помощь. Сначала меня
+                            направили на УЗИ, и по результатам обследования выяснилось, что у меня эхинококковая киста
+                            размером 15 см в правой доле печени.</p>
+                        <p class="review-text">Мне сделали операцию во 2-й больнице в Астане. Однако полностью удалить
+                            кисту не удалось — осталось примерно 4 см. Через 5 месяцев остаток увеличился до 8 см. Я
+                            знала, что в Казахстане, кроме операции, другого лечения не предлагают. Поэтому начала
+                            искать варианты за рубежом.</p>
+                        <p class="review-text">И однажды мне в рекламе попался сайт visus.med из Ташкента. Честно
+                            говоря, моему счастью не было предела — за день до этого моя мама молилась и просила у Бога
+                            помощи, и уже на следующий день мы нашли этих людей.</p>
+                        <p class="review-text">Я поехала в Ташкент и лично встретилась с врачом. Он оказался очень
+                            добрым, открытым и заботливым человеком. Он предложил мне 12-месячный курс лечения. После
+                            первых 4 месяцев киста уменьшилась с 8 см до 6,5 см. После второго курса — уже до 6 см.
+                            Постепенно она продолжает уменьшаться. Самое удивительное — на данный момент паразиты внутри
+                            кисты мертвы и она пустая.</p>
+                        <p class="review-text">Всё, о чём я рассказываю — правда. Верьте сначала в Бога, а потом в Его
+                            посланников! Я благодарна судьбе за то, что нашла этого человека. На протяжении всего курса
+                            он интересовался моим самочувствием и всегда был на связи.</p>
+                        <p class="review-text">Что самое интересное — этот врач сам когда-то болел этим заболеванием и
+                            нашёл своё собственное лечение. Стоимость курса также оказалась доступной для нас.
+                            Спасибо Вам!</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СА</div>
+                                <div>
+                                    <h4>Салтанат</h4>
+                                    <p class="review-date">Казахстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Здраствуйте всем ! Меня зовут Салтанат ! Я из Казахстана !
+                        <p class="review-text">Хочу оставить отзыв о лечении у доктора Ли Эльфрентий Хынчановича! В
+                            январе 2024 года у сына на узи обнаружили эхинококковые кисты в печени больших размеров 9,4
+                            см и нам сделали операцию и через 3 месяца вновь были обнаружены новые образования на печени
+                            и еще на легкие?В отчаянии я стала искать по интернету любую полезную информацию по лечению
+                            этой болезни. после этого конечно же мы искали где можно лечить эхинококка !и Бог направил
+                            нас Эльфрентий Хынчановичу ! После консультаций и отправки результатов всех обследований мы
+                            поехали в Ташкент ! На личном приеме у врача Ли Эльфрентий Хынчановича вместе с его сыном,
+                            нам объяснили истинное положение дел, касательно нашего заболевания.Доктор нас уверил в
+                            успешном извлечении,назначил диету и выдал готовый смесь точнее лекарство . Все это время
+                            сын держал диету, каждое утро пил лекарство ! Самое главное, что лечение не повлияло
+                            развитие и здоровье ребенка. Лечение проходило гладко без каких-либо осложнений.Большое
+                            спасибо за помощь и поддержку. За время лечения всегда был внимателен. В любое время можно
+                            было получить консультацию. Сын прошел полный курс лечения и сейчас по результатам УЗИ у нас
+                            все отлично !!!!!!</p>
+                        <p class="review-text">Мы всей семьей искренне благодарим Эльфрентий Хынчановича за спасение
+                            нашего сына от верной смерти. Советую всем кто столкнулся с этой страшной болезнью
+                            обратиться к Эльфрентий Хынчановичу, который действительно мастер своего дела и врач с
+                            большой буквы.Он — врач, который действительно работает на совесть, с отдачей, вниманием и
+                            пониманием к своим пациентам. Дай Бог всем иметь такой высокий уровень медицинского и
+                            человеческого обслуживания!На протяжении всего времени, он помог нам советом, поддерживал в
+                            трудные для нас минуты!</p>
+                        <p class="review-text">Я каждый день благодарю судьбу, которая свела меня с таким прекрасным
+                            врачом как вы,Я не устану вас благодарить всю свою жизнь и не смогу найти таких слов, чтобы
+                            выразить свою признательность.Я буду помнить вас всегда как лучшего из людей, встреченных
+                            мной на жизненном пути.
+                            Будьте счастливы, здоровы и пусть ваша профессия приносит вам только радость. Спасибо Вам за
+                            всё!!!Ли Эльфрентий Хынчанович !!!
+                            Не сомневайтесь в этом лечении, напротив будьте уверены, что это самый лучший вариант
+                            излечения от этих страшных заболеваний.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СА</div>
+                                <div>
+                                    <h4>Салтанат</h4>
+                                    <p class="review-date">Казахстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Хочу поделиться своим опытом лечения описторхоза. Три года назад я
+                            пережила очень сильный приступ, когда у меня были боли в левом подреберье. Этот приступ
+                            продолжался 10 дней, и никакие лекарства не помогали. В это время я ощущала, как будто
+                            глисты ползают по всему телу: по глазам, голове, лбу, ногам и пяткам. Я также чувствовала,
+                            как пальцы немееют, как будто у меня отморозились пальцы, и это было очень неприятно.
+                            Вдобавок, у меня были тошнота, рвота, а боли в подреберье продолжались долго, даже несколько
+                            месяцев после приступа.</p>
+                        <p class="review-text">Однажды я наткнулась на пост в Instagram о лечении эхинококкоза в
+                            Ташкенте, где прочитала комментарий о человеке, который вылечил описторхоз. Я решила узнать,
+                            кто лечит это заболевание в Ташкенте, так как я тоже живу в этом городе. После того как я
+                            нашла нужного врача, я начала лечение, и спустя полгода могу сказать, что мне стало гораздо
+                            лучше. Почти все симптомы исчезли, за исключением редких болей и высыпаний, которые
+                            появляются, если я ем сладкое или жирное. Боли под левым подреберьем почти прошли. Кроме
+                            того, на ногах и руках был сильный жар, и я могу носить носки, что раньше было невозможно
+                            из-за постоянного жара. Это для меня — огромный плюс, и я очень этому рада.
+                        </p>
+                        <p class="review-text">Ранее я также страдала от онемения рук и ног, а также от вздутия живота,
+                            непостоянного стула и газов. Иногда боли были настолько сильными, что я даже не могла
+                            понять, что со мной происходит. Я чувствовала, как глист ползает по моему телу под кожей, и
+                            это было крайне неприятно.</p>
+                        <p class="review-text">Я очень благодарна Богу, что Он помог мне вылечиться, и доктору
+                            Эльфрентий Хинчановичу за его помощь и лекарство, которое реально помогает. Сейчас мне
+                            намного лучше, и симптомы практически ушли. Я советую всем, у кого есть подозрение на
+                            глистные инвазии, обязательно сдать анализы. Описторхоз трудно обнаружить, и если есть
+                            симптомы, лучше сразу лечиться. Я узнала о своём заболевании случайно, когда сдала анализы.
+                            Это было настоящее чудо, что мне удалось вовремя обнаружить и начать лечение.</p>
+                        <p class="review-text">Этот опыт научил меня заботиться о своём здоровье и не игнорировать даже
+                            самые мелкие симптомы. Если у вас есть сомнения, не ждите, делайте анализы и обращайтесь к
+                            специалисту Эльфрентий Хынчановичу</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СА</div>
+                                <div>
+                                    <h4>Салтанат</h4>
+                                    <p class="review-date">Казахстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+
+                        <p class="review-text">Добрый день Эльфрентий. Хочу отставить свой честный отзыв. В прошлом году
+                            я на просторах интернета усердно искала хорошего врача паразитолога, чтоб максимально
+                            эффективно и без химии почиститься всей семьей от паразитов. Живем мы в Дубае. Случайно
+                            нашла сайт Эльфрентия , написала им проконсультировалась. Находятся они не долеко от
+                            Ташкента. Прилетела в Ташкент, затем на такси добралась до места назначения. Познакомилась с
+                            прекрасным доктором Эльфрентием. Он достал бутылки с розовой жидкостью немного вызвало
+                            сомнения я ожидала таблетки увидеть, либо травки. Это ни настойки на траве, ни таблетки
+                            такое я увидела впервые. Это похоже на розовое молочко. (Авторский рецепт) не смотря на
+                            сомнения я оплатила и забрала все бутылки. Что мне понравилось, что доктор был постоянно на
+                            связи. Пьется жидкость 1 раз утром и все. На вкус не очень,но терпимо, ради здоровья можно
+                            пропить. После 2х месяцев пошел процесс, еще он травку сказал заваривать и пить после курса
+                            лечения. Если можно было бы приложить фото я приложила бы что выходило с моих детей)). В
+                            общем самочувствие улучшилось появилась энергия. После чистки витамины стали лучше
+                            усваиваться все на пользу в организм, а ни на паразитов)).. Я всем рекомендую этого
+                            Прекрасного доктора. И прикрепляю свой номер телефона если у кого возникнут сомнения
+                            пишите)) </p>
+
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">СА</div>
+                                <div>
+                                    <h4>Салтанат</h4>
+                                    <p class="review-date">Казахстан</p>
+                                </div>
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path
+                                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z">
+                                </path>
+                                <path
+                                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <p class="review-text">Assalomu aleykum! Men 27 yoshdaman, ancha yillardan beri exinokokli kista
+                            bn kurashib kelmoqdaman. doktor Xinchanovich bilan tanishishimdan oldin, 2021 yildan
+                            bexosdan uzi tekshiruvida talog'imda kista borligini aniqlagan edim. Bormagan joyim,
+                            tekshirmagan joyim qolmadi. Kistani razmeri 4 sm edi, xirurglar operatsiya qilish kerak yoki
+                            har 6 oyda uzi qilib kuzatib yurasiz deb aytishdi. Lekin meni hech nima bezovta qilmas edi,
+                            faqat juda ozg'in edim. Keyin ropa rosa 2 yil otib, yana uzi qildirsan kistani 5,5 sm ga
+                            kattalashgan. Uje bu paytda tashxis exinokokli kista ekan. Xavotir olishni boshladim, chunki
+                            internetlarda exinokok juda xavfli parazit u o'zida zahar chiqarib agar kattalashib ketsa
+                            odamni o'ldirib qo'yishi mumkinligi o'qib qoldim. Toshkentning eng zo'r xirurglariga
+                            ko'rsatdim, ular ham 100% natija qila olmasliklarini, agar taloqni kista bilan olib
+                            tashlansa shunda exinokok ko'payib ketmasligini aytishdi. Men yoshman qanday hech nima
+                            bezovta qilmasayu operatsiya qilish kerak deb hayron qolar edim. Keyin bexosdan visus med
+                            klinikasini internetda o'qib qoldim. U yerda operatsiyasiz exinokokli kistani davolash
+                            mumkin ekanligini aytishdi. Men qanday zo'r professorlar davolay olmayotgan kistani oddiy
+                            dori bilan davolash mumkin ekanligiga hayron qoldim. To'g'risi ishonmadim ham. Men doktor
+                            xinchanovichdan bironta siz davolagan insonlarni nomerini berishi so'radim. U kishi
+                            qozogistondan, qizgizistondan hatto rassiyadan kelib davolanganlarni nomerini berdilar.
+                            Lekin barbir ham ishonmadim. Boshida bularni hamasi tili bir deb oyladim. Lekin menga boshqa
+                            yo'l yo'q edi. Chunki operatsiya qildirish yoki xinchanovich tayyorlab beradigan dorini
+                            ichishim kerak edi. Men tavakkal qildim. Taxminan 1 yil shu dorini har ertalab och qorinda
+                            ichdim va odatiy hayotimni davom ettirdim. 1 yil o'tib uzi qildirsam kista bujmayib qolib,
+                            razmeri ham kichraygan ekan. Shundan keyin yana 1 kurs dori sotib oldim. Hozir 5.5 smli
+                            kista 3 sm ga qisqargan kistani ichidagi parazitlar o'lgan lekin men ichishni davom
+                            ettiryapman. Menga o'xshagan insonlar qiynalib, davo topolmay operatsiya qildir keyin butun
+                            organizmiga parazitlar tarqalib ketmasligi uchun bu narsalarni yozayapman. Men ham boshida
+                            shunday hama joydan najot izladim. Men doktor xinchanovichdan juda minnatdorman, dori qimmat
+                            bo'lishi mumkin. Lekin inson hayotidan qimmatlikroq hech narsa bo'lmasa kerak. Men boshqa
+                            ozim kabi insonlar mendan maslahatlar so'ray olishlari uchun nomerimni ham yozib qoldiraman.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="feedback-form-section" class="review-cta">
+            <div class="container">
+                <div class="review-cta-content" role="region" aria-labelledby="feedback-heading">
+                    <h3 id="feedback-heading">Оставить отзыв</h3>
+                    <p>Если вы хотите добавить свой опыт — заполните форму ниже. Отзывы публикуются после проверки.</p>
+
+                    <form id="patientFeedbackForm" action="/api/feedback" method="post" novalidate>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <label style="flex:1;min-width:200px">
+                                Имя
+                                <input name="name" type="text" required minlength="2" placeholder="Ваше имя" />
+                            </label>
+
+                            <label style="flex:1;min-width:200px">
+                                Город
+                                <input name="city" type="text" placeholder="город" />
+                            </label>
+                        </div>
+
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+                            <label style="flex:1;min-width:200px">
+                                Email (необязательно)
+                                <input name="email" type="email" placeholder="name@example.com" />
+                            </label>
+
+                            <label style="flex:1;min-width:200px">
+                                Телефон (необязательно)
+                                <input name="phone" type="text" placeholder="+998 90 949-97-21" />
+                            </label>
+                        </div>
+
+                        <label style="display:block;margin-top:12px;">
+                            Оценка
+                            <select name="rating" required>
+                                <option value="">Выберите</option>
+                                <option value="5">5 — Отлично</option>
+                                <option value="4">4 — Хорошо</option>
+                                <option value="3">3 — Нормально</option>
+                                <option value="2">2 — Плохо</option>
+                                <option value="1">1 — Очень плохо</option>
+                            </select>
+                        </label>
+
+                        <label style="display:block;margin-top:12px;">
+                            Отзыв
+                            <textarea name="message" required minlength="10" placeholder="Опишите ваш опыт"></textarea>
+                        </label>
+
+                        <label style="display:block;margin-top:10px">
+                            <input name="consent" type="checkbox" required /> Согласен(на) на обработку персональных
+                            данных
+                        </label>
+
+                        <div id="feedbackFormMsg" style="margin-top:12px;display:none" aria-live="polite"></div>
+
+                        <div style="margin-top:14px;display:flex;gap:12px;align-items:center;justify-content:center;">
+                            <button id="feedbackSubmit" type="submit" class="btn btn-primary">Отправить отзыв</button>
+                            <button id="feedbackReset" type="button" class="btn"
+                                style="background:var(--bg);">Очистить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand -->
+                <div class="footer-brand">
+                    <img src="../image/logo.png" style="width: 50%; height: auto;" alt="Visus Medical"
+                        class="footer-logo" onerror="this.style.display='none'">
+                    <p class="footer-description">
+                        Специализируемся на лечении паразитарных заболеваний и ревматологических недугов. Уникальные
+                        авторские методики под контролем дипломированных врачей. 11 лет успешной практики.
+                    </p>
+                    <div class="footer-contacts">
+                        <p class="contact-title">Контакты:</p>
+                        <p><a href="tel:+998909499721">+998 90 949-97-21</a></p>
+                        <p><a href="tel:+998978851058">+998 97 885-10-58</a></p>
+                        <p><a href="mailto:info@visus-med.uz">info@visus-med.uz</a></p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M22.46 6c-.85.38-1.77.64-2.75.76 1-.59 1.76-1.53 2.13-2.64-.93.55-1.96.95-3.06 1.17C17.96 4.42 16.9 4 15.75 4a4.85 4.85 0 0 0-4.84 4.84c0 .38.04.75.12 1.1-4.02-.2-7.59-2.13-9.97-5.05a4.83 4.83 0 0 0 1.5 6.47 4.8 4.8 0 0 1-2.19-.61v.06c0 2.35 1.67 4.31 3.88 4.75-.4.11-.83.17-1.28.17-.31 0-.62-.03-.92-.08.62 1.94 2.43 3.35 4.58 3.39a9.72 9.72 0 0 1-6.02 2.07c-.39 0-.78-.02-1.17-.07A13.7 13.7 0 0 0 9.44 22c8.94 0 13.83-7.41 13.83-13.83 0-.21 0-.42-.01-.63.96-.69 1.79-1.55 2.44-2.53z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-links">
+                    <h4>Специализация</h4>
+                    <ul>
+                        <li><a href="articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a></li>
+                        <li><a href="articles/rheumatoidArthritis.html">Ревматоидный артрит</a></li>
+                        <li><a href="articles/helminthiasis.html">Гельминтоз</a></li>
+                        <li><a href="articles/rheumatism.html">Ревматизм</a></li>
+                        <li><a href="articles/giardiasis.html">Лямблиоз и др. паразиты</a></li>
+                    </ul>
+                </div>
+
+                <!-- Info -->
+                <div class="footer-links">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="about.html">О клинике</a></li>
+                        <li><a href="specialist.html">Наши специалисты</a></li>
+                        <li><a href="../index.html#services">Методики лечения</a></li>
+                        <li><a href="blog.html">Блог</a></li>
+                    </ul>
+                </div>
+
+                <!-- Patients -->
+                <div class="footer-links">
+                    <h4>Пациентам</h4>
+                    <ul>
+                        <li><a href="appointment.html">Как записаться</a></li>
+                        <li><a href="../index.html#services">Подготовка к приёму</a></li>
+                        <li><a href="../index.html#services">Программы лечения</a></li>
+                        <li><a href="feedback.html">Отзывы</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="footer-bottom">
+                <p>© 2025 Visus Medical. Все права защищены.</p>
+                <div class="footer-legal">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const form = document.getElementById('patientFeedbackForm');
+            const submitBtn = document.getElementById('feedbackSubmit');
+            const resetBtn = document.getElementById('feedbackReset');
+            const msg = document.getElementById('feedbackFormMsg');
+
+            function show(text, ok = true) {
+                msg.style.display = 'block';
+                msg.textContent = text;
+                msg.style.background = ok ? '#e6ffed' : '#fff1f0';
+                msg.style.border = ok ? '1px solid #c7f0d0' : '1px solid #f5c6cb';
+                msg.style.color = ok ? '#0b6a2b' : '#b00020';
+                msg.style.padding = '10px';
+                msg.style.borderRadius = '8px';
+            }
+
+            resetBtn.addEventListener('click', () => {
+                form.reset();
+                msg.style.display = 'none';
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                msg.style.display = 'none';
+
+                if (!form.checkValidity()) {
+                    show('Пожалуйста, заполните обязательные поля корректно.', false);
+                    return;
+                }
+
+                const data = {
+                    name: form.name.value.trim(),
+                    city: form.city.value.trim(),
+                    email: form.email.value.trim(),
+                    phone: form.phone.value.trim(),
+                    rating: form.rating.value,
+                    message: form.message.value.trim(),
+                    consent: !!form.consent.checked,
+                    page: window.location.pathname,
+                    submittedAt: new Date().toISOString()
+                };
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Отправка...';
+
+                try {
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (res.ok) {
+                        show('Спасибо! Ваш отзыв отправлен и появится после модерации.', true);
+                        form.reset();
+                    } else {
+                        const text = await res.text().catch(() => null);
+                        show('Ошибка при отправке: ' + (text || res.statusText || res.status), false);
+                    }
+                } catch (err) {
+                    show('Сетевая ошибка: ' + (err.message || err), false);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Отправить отзыв';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
