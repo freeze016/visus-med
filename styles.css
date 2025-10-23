@@ -454,6 +454,26 @@ a {
     font-size: 14px;
 }
 
+.mobile-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text-dark);
+  border-radius: 8px;
+  transition: background .12s, transform .08s;
+  z-index: 10;
+}
+.mobile-close-btn:hover { background: rgba(0,0,0,0.04); transform: translateY(-1px); }
+
+/* Если фон затемнения затемняет нав, кнопка по виду должна быть контрастной — при необходимости меняйте цвет */
+.mobile-nav { position: relative; }
+
 /* Hero Section */
 .hero {
     background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
