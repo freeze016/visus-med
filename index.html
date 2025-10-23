@@ -108,15 +108,21 @@
     </header>
     <!-- Mobile menu (перенесено сюда, чтобы полноэкранный фон и фиксированное позиционирование работали корректно) -->
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-        <nav class="mobile-nav">
-            <a href="../index.html#hero" class="mobile-nav-link">Главная</a>
+        <nav class="mobile-nav" role="dialog" aria-modal="true" aria-label="Навигация">
+            <!-- Close button -->
+            <button id="mobileCloseBtn" class="mobile-close-btn" aria-label="Закрыть меню">&times;</button>
+
+            <a href="#hero" class="mobile-nav-link">Главная</a>
+
             <div class="mobile-nav-section">
                 <div class="mobile-nav-title">Заболевания и лечение</div>
-                <a href="articles/echinococcosis.html" class="mobile-nav-sub">Эхинококкоз и Альвеококкоз</a>
-                <a href="articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
-                <a href="articles/helminthiasis.html" class="mobile-nav-sub">Гельминтоз</a>
-                <a href="articles/rheumatism.html" class="mobile-nav-sub">Ревматизм</a>
-                <a href="articles/polyarthritis.html" class="mobile-nav-sub">Полиартрит</a>
+                <!-- Ссылки приведены в один формат (как в десктоп-меню) -->
+                <a href="templates/articles/echinococcosis.html" class="mobile-nav-sub">Эхинококкоз и Альвеококкоз</a>
+                <a href="templates/articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
+                <a href="templates/articles/giardiasis.html" class="mobile-nav-sub">Гельминтоз</a>
+                <a href="templates/articles/rheumatism.html" class="mobile-nav-sub">Ревматизм</a>
+                <a href="templates/articles/polyarthritis.html" class="mobile-nav-sub">Полиартрит</a>
+                <a href="templates/price.html" class="mobile-nav-sub">Прайс-лист</a>
             </div>
 
             <a href="templates/about.html" class="mobile-nav-link">О клинике</a>
@@ -125,14 +131,14 @@
             <a href="templates/blog.html" class="mobile-nav-link">Блог</a>
             <a href="templates/appointment.html" class="mobile-nav-link">Контакты</a>
 
-            <a href="templates/appointment.html" class="btn btn-primary desktop-btn">Записаться на приём</a>
+            <a href="templates/appointment.html" class="btn btn-primary mobile-cta">Записаться на приём</a>
 
             <div class="mobile-contacts">
                 <a href="tel:+998909499721">+998 90 949-97-21</a>
                 <a href="tel:+998978851058">+998 97 885-10-58</a>
             </div>
         </nav>
-+    </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
@@ -240,7 +246,7 @@
                     <h3>Ревматоидный артрит</h3>
                     <p>Хроническое воспалительное заболевание суставов. Может поражать внутренние органы (почки, легкие,
                         печень)</p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/rheumatism.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card" id="helminthiasis">
@@ -254,7 +260,7 @@
                     </div>
                     <h3>Гельминтоз</h3>
                     <p>Паразитарные заболевания, вызываемые гельминтами (паразитические черви, глисты)</p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/helminthiasis.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card" id="rheumatism">
@@ -266,7 +272,7 @@
                     <h3>Ревматизм и Полиартрит</h3>
                     <p>Воспалительное заболевание соединительной ткани, поражающее суставы и сердечно-сосудистую систему
                     </p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/rheumatism.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card">
@@ -280,7 +286,7 @@
                     <h3>Лямблиоз и другие паразиты</h3>
                     <p>Лечение лямблиоза, бычьего цепня, аскарид, токсокароза, трихинеллёза на любой стадии заболевания
                     </p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/giardiasis.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card">
@@ -595,7 +601,7 @@
                         <h3>Профилактика паразитарных заболеваний</h3>
                         <p>Основные меры предосторожности и рекомендации по профилактике паразитарных инфекций в
                             повседневной жизни.</p>
-                        <a href="#" class="blog-link">
+                        <a href="templates/articles/giardiasis.html" class="blog-link">
                             Читать далее
                             <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -623,7 +629,7 @@
                         <h3>Ревматоидный артрит: мифы и реальность</h3>
                         <p>Развенчиваем распространенные заблуждения о ревматоидном артрите и рассказываем о современных
                             методах лечения.</p>
-                        <a href="#" class="blog-link">
+                        <a href="templates/articles/rheumatoidArthritis.html" class="blog-link">
                             Читать далее
                             <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -651,7 +657,7 @@
                         <h3>Эхинококкоз: ранняя диагностика спасает жизни</h3>
                         <p>Почему важно вовремя обнаружить заболевание и как современная диагностика помогает избежать
                             операции.</p>
-                        <a href="#" class="blog-link">
+                        <a href="templates/articles/echnococcosis.html" class="blog-link">
                             Читать далее
                             <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -846,7 +852,7 @@
                     <h4>Информация</h4>
                     <ul>
                         <li><a href="templates/about.html">О клинике</a></li>
-                        <li><a href="templates/">Наши специалисты</a></li>
+                        <li><a href="templates/specialist.html">Наши специалисты</a></li>
                         <li><a href="#services">Методики лечения</a></li>
                         <li><a href="templates/blog.html">Блог</a></li>
                     </ul>
@@ -878,6 +884,4 @@
     <script src="script.js"></script>
 </body>
 
-
 </html>
-
