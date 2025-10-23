@@ -314,49 +314,55 @@ console.log('Сайт клиники Visus загружен успешно!');
 
 // ...existing code...
 document.addEventListener('DOMContentLoaded', function () {
-  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
+  const mobileCloseBtn = document.getElementById('mobileCloseBtn');
 
-  if (!mobileBtn || !mobileMenu) return;
+  if (!mobileMenuBtn || !mobileMenu) return;
 
   function openMenu() {
     mobileMenu.classList.add('open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    mobileMenuBtn.classList.add('active');
     document.body.classList.add('no-scroll');
   }
   function closeMenu() {
     mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    mobileMenuBtn.classList.remove('active');
     document.body.classList.remove('no-scroll');
   }
-  mobileBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
-    document.body.classList.toggle('no-scroll', mobileMenu.classList.contains('open'));
+
+  mobileMenuBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
   });
 
-  // Закрыть при клике по затемнённому бекдропу (вне .mobile-nav)
+  if (mobileCloseBtn) {
+    mobileCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeMenu();
+    });
+  }
+
+  // close by clicking backdrop (only when click target is the backdrop)
   mobileMenu.addEventListener('click', (e) => {
     if (e.target === mobileMenu) closeMenu();
   });
 
-  // Закрыть меню при клике по любой ссылке внутри (удобно для одностраничника)
+  // close when a link is clicked — also allows navigation to work
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      // если ссылка ведёт на якорь — плавно проскроллить можно добавить отдельно
       closeMenu();
+      // NOTE: do not call preventDefault — allow navigation
     });
   });
 
-  // Закрыть Esc
+  // close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
   });
-
-  // Если пользователь предпочитает уменьшение движения — отключаем анимацию меню
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    mobileMenu.style.transition = 'none';
-    const nav = mobileMenu.querySelector('.mobile-nav');
-    if (nav) nav.style.transition = 'none';
-  }
-});
+})();
 // ...existing code...
 
 // ...existing code...
