@@ -103,6 +103,141 @@
             border-bottom: none;
         }
     </style>
+    <style>
+    /* --- Specialist page: улучшенный дизайн и адаптив --- */
+
+    .specialist-hero {
+        background: linear-gradient(180deg, var(--bg-blue-light, #eff6ff) 0%, var(--white, #fff) 100%);
+        padding: 64px 0 36px;
+        text-align: center;
+    }
+    .specialist-hero .container { max-width: 1100px; margin: 0 auto; }
+    .specialist-hero .section-subtitle {
+        color: var(--text-gray);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+    .specialist-hero h1 {
+        font-size: 36px;
+        line-height: 1.08;
+        margin: 0 0 12px;
+        color: var(--text-dark);
+    }
+    .specialist-hero p {
+        max-width: 900px;
+        margin: 0 auto;
+        color: var(--text-gray);
+        font-size: 16px;
+    }
+
+    /* Profile */
+    .specialist-profile-section { padding: 48px 0; }
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+        align-items: start;
+    }
+    @media (min-width: 768px) {
+        .profile-grid { grid-template-columns: 1fr 1.6fr; gap: 40px; }
+    }
+
+    .profile-image-container { text-align: center; }
+    .profile-image {
+        width: 100%;
+        max-width: 360px;
+        border-radius: 14px;
+        object-fit: cover;
+        box-shadow: 0 18px 40px rgba(2,6,23,0.08);
+        border: 6px solid rgba(255,255,255,0.8);
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .profile-image:hover { transform: translateY(-6px); box-shadow: 0 26px 60px rgba(2,6,23,0.12); }
+
+    .profile-info {
+        padding: 6px 6px 6px 6px;
+    }
+    .profile-info h1 {
+        font-size: 28px;
+        margin: 0 0 6px;
+        color: var(--primary-dark);
+    }
+    .profile-info .title {
+        display: inline-block;
+        font-size: 15px;
+        color: var(--primary);
+        margin-bottom: 18px;
+        font-weight: 600;
+    }
+    .profile-info p { color: var(--text-gray); font-size: 15px; margin-bottom: 12px; line-height:1.6; }
+    .profile-info h3 { margin-top: 20px; margin-bottom: 10px; color: var(--text-dark); font-size:18px; }
+
+    .profile-info ul { list-style: none; padding-left: 0; margin: 8px 0 24px; display: grid; gap:8px; }
+    .profile-info ul li {
+        padding: 10px 12px;
+        background: linear-gradient(90deg, rgba(237,246,255,0.6), rgba(255,255,255,0.6));
+        border-radius: 10px;
+        color: var(--text-dark);
+        font-size: 15px;
+        border: 1px solid rgba(37,99,235,0.06);
+    }
+
+    /* CTA button in profile image column */
+    .profile-image-container .btn {
+        display: inline-block;
+        margin-top: 18px;
+        width: min(320px, 100%);
+        font-size: 15px;
+        padding: 12px 18px;
+    }
+
+    /* Advantages block */
+    .advantages { padding: 40px 0; }
+    .advantages-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    @media (min-width: 768px) {
+        .advantages-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    }
+    .advantage-item {
+        background: var(--white);
+        padding: 22px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid var(--border);
+        transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .advantage-item:hover { transform: translateY(-6px); box-shadow: 0 14px 40px rgba(2,6,23,0.06); }
+    .advantage-item h3 { margin-top:12px; font-size:18px; color:var(--text-dark); }
+    .advantage-item p { color:var(--text-gray); font-size:14px; margin-top:8px; }
+
+    /* Footer & layout small fixes for page */
+    .header-main .logo img { max-height: 56px; width: auto; }
+    .mobile-menu-btn { margin-left: 12px; }
+
+    /* Accessibility & focus */
+    a:focus, button:focus { outline: 3px solid rgba(37,99,235,0.12); outline-offset: 3px; border-radius: 8px; }
+
+    /* Responsive tweaks */
+    @media (max-width: 880px) {
+        .specialist-hero { padding: 34px 16px; }
+        .specialist-hero h1 { font-size: 22px; }
+        .profile-info h1 { font-size: 20px; }
+        .profile-image { max-width: 260px; border-radius: 10px; }
+        .profile-info ul li { font-size: 14px; padding: 10px; }
+        .profile-image-container .btn { width: 100%; }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+    }
+</style>
 </head>
 
 <body>
