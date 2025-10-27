@@ -1,3 +1,10 @@
+// Guard: диагностировать и предотвратить фатальную ошибку
+if (typeof document.addEventListener !== 'function') {
+  console.error('ERROR: document.addEventListener is not a function (was overwritten). Aborting DOM listeners.');
+} else {
+  // остальной существующий код со слушателями остаётся как есть
+}
+
 // Header Hide/Show on Scroll
 let lastScrollTop = 0;
 const header = document.getElementById('header');
@@ -362,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
   });
-})();
+});
 // ...existing code...
 
 // ...existing code...
@@ -446,3 +453,188 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // ...existing code...
 
+
+// Breadcrumb generator (fills #siteBreadcrumb)
+(function(){
+  const el = document.getElementById('siteBreadcrumb');
+  if (!el) return;
+
+  // optional: укажите базовый путь публикации (например "/repo-name") через meta
+  const baseMeta = document.querySelector('meta[name="site-base"]');
+  const basePath = baseMeta ? baseMeta.getAttribute('content').replace(/\/$/, '') : '';
+
+  // человекопонятные названия для сегментов
+  const map = {
+    '': 'Главная',
+    'templates': '', // скрываем техническую папку
+    'articles': 'Заболевания и лечение',
+    'echinococcosis': 'Эхинококкоз и Альвеококкоз',
+    'giardiasis': 'Гиардиаз (лямблиоз)',
+    'rheumatoidArthritis': 'Ревматоидный артрит',
+    'rheumatism': 'Ревматизм',
+    'polyarthritis': 'Полиартрит',
+    'feedback.html': 'Отзывы',
+    'about.html': 'О клинике',
+    'specialist.html': 'Специалисты',
+    'blog.html': 'Блог',
+    'appointment.html': 'Контакты',
+    'price.html': 'Прайс-лист',
+    'sitemap.html': 'Карта сайта'
+  };
+
+  // убираем query/hash и конечный слеш
+  let path = location.pathname.replace(/\/$/, '');
+  // убираем базовый путь если сайт опубликован в поддиректории
+  if (basePath && path.indexOf(basePath) === 0) path = path.slice(basePath.length) || '/';
+  const parts = path.split('/').filter(Boolean);
+
+  // собрать массив крошек
+  const crumbs = [];
+  // первая — Главная (с учётом basePath)
+  const homeHref = basePath || '/';
+  crumbs.push({ name: map[''] || 'Главная', href: homeHref });
+
+  let accum = basePath || '';
+  parts.forEach((seg, idx) => {
+    accum += '/' + seg;
+    // если сег — файл (contains .html) используем его полностью, иначе пробуем маппинг
+    const keyFile = seg;
+    let title = map[keyFile] || map[seg] || prettifySegment(seg);
+    // игнорировать технические сегменты (например 'templates')
+    if (map[seg] === '') return;
+    crumbs.push({ name: title, href: accum });
+  });
+
+  // отрисовка
+  el.innerHTML = '';
+  crumbs.forEach((c, i) => {
+    const isLast = i === crumbs.length - 1;
+    if (!isLast) {
+      const a = document.createElement('a');
+      a.href = c.href;
+      a.textContent = c.name;
+      el.appendChild(a);
+      const sep = document.createElement('span');
+      sep.className = 'sep';
+      sep.textContent = '›';
+      el.appendChild(sep);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'current';
+      span.textContent = c.name;
+      el.appendChild(span);
+    }
+  });
+
+  // helper
+  function prettifySegment(s){
+    // убрать расширение .html
+    s = s.replace(/\.html$/i, '');
+    // заменить дефисы и подчёркивания
+    s = s.replace(/[-_]/g, ' ');
+    // camelCase -> words
+    s = s.replace(/([a-z])([A-Z])/g, '$1 $2');
+    // ucfirst
+    s = s.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    return decodeURIComponent(s);
+  }
+})();
+
+// ...existing code...
+document.addEventListener('DOMContentLoaded', function () {
+  const el = document.getElementById('siteBreadcrumb');
+  if (!el) return;
+
+  const baseMeta = document.querySelector('meta[name="site-base"]');
+  const basePath = baseMeta ? baseMeta.getAttribute('content').replace(/\/$/, '') : '';
+  const homeHref = basePath || '/';
+
+  const map = {
+    '': 'Главная',
+    'templates': '', // скрываем техническую папку
+    'articles': 'Заболевания и лечение',
+    'echinococcosis': 'Эхинококкоз и Альвеококкоз',
+    'giardiasis': 'Лямблиоз',
+    'rheumatoidArthritis': 'Ревматоидный артрит',
+    'rheumatoidArthritis.html': 'Ревматоидный артрит',
+    'rheumatism': 'Ревматизм',
+    'polyarthritis': 'Полиартрит',
+    'feedback.html': 'Отзывы',
+    'about.html': 'О клинике',
+    'specialist.html': 'Специалисты',
+    'blog.html': 'Блог',
+    'appointment.html': 'Контакты',
+    'price.html': 'Прайс-лист',
+    'sitemap.html': 'Карта сайта'
+  };
+
+  // path без завершающего слеша
+  let path = location.pathname.replace(/\/$/, '');
+  if (basePath && path.indexOf(basePath) === 0) path = path.slice(basePath.length) || '/';
+  const parts = path.split('/').filter(Boolean);
+
+  const crumbs = [];
+  crumbs.push({ name: map[''] || 'Главная', href: homeHref });
+
+  let accum = basePath || '';
+  parts.forEach((seg, idx) => {
+    accum += '/' + seg;
+
+    // пропускаем технические сегменты
+    if (map[seg] === '') return;
+
+    // если сег == 'articles' — показываем как "Заболевания и лечение" и ведём на главную (по просьбе)
+    if (seg === 'articles') {
+      crumbs.push({ name: map['articles'], href: homeHref });
+      return;
+    }
+
+    // для файлов .html используем ключ с расширением, но показываем локализованное название если есть
+    const key = seg;
+    const title = map[key] || prettifySegment(seg);
+
+    // Если это сегмент-страница (например файл статьи) и пользователь просил, чтобы и он вел на главную:
+    // — если ключ присутствует в map и соответствует заболеванию, делаем href → homeHref
+    const diseaseKeys = ['rheumatoidArthritis', 'rheumatoidArthritis.html', 'echinococcosis', 'giardiasis', 'rheumatism', 'polyarthritis'];
+    if (diseaseKeys.includes(key)) {
+      crumbs.push({ name: title, href: homeHref });
+    } else {
+      // стандартное поведение — ссылка на накопленный путь
+      crumbs.push({ name: title, href: accum });
+    }
+  });
+
+  // Рендер
+  el.innerHTML = '';
+  crumbs.forEach((c, i) => {
+    const isLast = i === crumbs.length - 1;
+    // если ссылка ведёт на главную (homeHref), отображаем как ссылку даже для последнего элемента (по просьбе)
+    const makeLink = !isLast || c.href === homeHref;
+    if (makeLink) {
+      const a = document.createElement('a');
+      a.href = c.href;
+      a.textContent = c.name;
+      el.appendChild(a);
+      if (!isLast) {
+        const sep = document.createElement('span');
+        sep.className = 'sep';
+        sep.textContent = '›';
+        el.appendChild(sep);
+      }
+    } else {
+      const span = document.createElement('span');
+      span.className = 'current';
+      span.textContent = c.name;
+      el.appendChild(span);
+    }
+  });
+
+  function prettifySegment(s) {
+    s = s.replace(/\.html$/i, '');
+    s = s.replace(/[-_]/g, ' ');
+    s = s.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return decodeURIComponent(s.split(' ')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '));
+  }
+});
+// ...existing code...
