@@ -4,9 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Клиника Visus - эффективное лечение паразитарных заболеваний и ревматологии">
-    <title>Visus - Клиника нетрадиционной медицины</title>
+
+    <title>Visus — Клиника нетрадиционной медицины</title>
+    <meta name="description" content="Клиника Visus — эффективное лечение паразитарных и ревматологических заболеваний. Первичная консультация бесплатно, индивидуальные программы лечения.">
+    <meta name="keywords" content="Visus, клиника, паразитарные заболевания, артрит, эхинококкоз, ревматизм, Ташкент">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://visus-medical.uz/">
+    <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Visus">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Visus — Клиника нетрадиционной медицины">
+    <meta property="og:description" content="Клиника Visus — эффективное лечение паразитарных и ревматологических заболеваний. Первичная консультация бесплатно.">
+    <meta property="og:image" content="https://visus-medical.uz/image/og-banner.jpg">
+    <meta property="og:url" content="https://visus-medical.uz/">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Visus — Клиника нетрадиционной медицины">
+    <meta name="twitter:description" content="Клиника Visus — эффективное лечение паразитарных и ревматологических заболеваний.">
+    <meta name="twitter:image" content="https://visus-medical.uz/image/og-banner.jpg">
+
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Structured data: Organization + MedicalOrganization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://visus-medical.uz/#org",
+          "name": "Visus",
+          "url": "https://visus-medical.uz/",
+          "logo": "https://visus-medical.uz/image/logo.png",
+          "sameAs": []
+        },
+        {
+          "@type": "MedicalOrganization",
+          "name": "Visus",
+          "url": "https://visus-medical.uz/",
+          "telephone": "+998909499721",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Нурафшон",
+            "addressRegion": "Ташкентская обл.",
+            "streetAddress": "ул. Мустакиллик, 2",
+            "postalCode": ""
+          },
+          "openingHours": ["Mo-Fr 09:00-18:00","Sa 09:00-13:00"]
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -52,9 +105,9 @@
                         </button>
                         <div class="nav-dropdown-menu">
                             <a href="templates/articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a>
+                            <a href="templates/articles/helminthiasis.html">Гельминтоз</a>
+                            <a href="templates/articles/giardiasis.html">Лямблиоз и др. паразиты</a>
                             <a href="templates/articles/rheumatoidArthritis.html">Ревматоидный артрит</a>
-                            <a href="templates/articles/giardiasis.html">Гельминтоз</a>
-                            <a href="templates/articles/rheumatism.html">Ревматизм</a>
                             <a href="templates/articles/polyarthritis.html">Полиартрит</a>
                             <a href="templates/price.html">Прайс-лист</a>
                         </div>
@@ -62,6 +115,7 @@
                     <a href="templates/about.html">О клинике</a>
                     <a href="templates/specialist.html">Специалисты</a>
                     <a href="templates/feedback.html">Отзывы</a>
+                    <a href="templates/faq.html">Вопрос-ответ (FAQ)</a>
                     <a href="templates/blog.html">Блог</a>
                     <a href="templates/appointment.html">Контакты</a>
                 </nav>
@@ -118,16 +172,17 @@
                 <div class="mobile-nav-title">Заболевания и лечение</div>
                 <!-- Ссылки приведены в один формат (как в десктоп-меню) -->
                 <a href="templates/articles/echinococcosis.html" class="mobile-nav-sub">Эхинококкоз и Альвеококкоз</a>
-                <a href="templates/articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
-                <a href="templates/articles/giardiasis.html" class="mobile-nav-sub">Гельминтоз</a>
-                <a href="templates/articles/rheumatism.html" class="mobile-nav-sub">Ревматизм</a>
+                <a href="templates/articles/helminthiasis.html" class="mobile-nav-sub">Гельминтоз</a>
+                <a href="templates/articles/giardiasis.html" class="mobile-nav-sub">Лямблиоз и др. паразиты</a>
                 <a href="templates/articles/polyarthritis.html" class="mobile-nav-sub">Полиартрит</a>
+                <a href="templates/articles/rheumatoidArthritis.html" class="mobile-nav-sub">Ревматоидный артрит</a>
                 <a href="templates/price.html" class="mobile-nav-sub">Прайс-лист</a>
             </div>
 
             <a href="templates/about.html" class="mobile-nav-link">О клинике</a>
             <a href="templates/specialist.html" class="mobile-nav-link">Специалисты</a>
             <a href="templates/feedback.html" class="mobile-nav-link">Отзывы</a>
+            <a href="templates/faq.html" class="mobile-nav-link">Вопрос-ответ (FAQ)</a>
             <a href="templates/blog.html" class="mobile-nav-link">Блог</a>
             <a href="templates/appointment.html" class="mobile-nav-link">Контакты</a>
 
@@ -149,10 +204,11 @@
 
                     <h2 class="hero-title">Visus-Medical</h2>
 
-                    <p class="hero-text">Клиника «Visus» предоставляет услуги по лечению таких заболеваний, как
-                        полиартрит, ревматоидный артрит, ревматизм, лечение эхинококкоза и альвеококкоза без
-                        операционного вмешательства, лечение от всех видов гельминтов (Бычий цепень, Аскариды,
-                        Токсокароз, Трихинеллёз) на любой стадии заболевания.</p>
+                    <p class="hero-text">Клиника «Visus» предоставляет услуги по лечению эхинококкоза и альвеококкоза
+                        без операционного вмешательства, лечение от всех видов гельминтов (Бычий цепень, Аскариды,
+                        Токсокароз, Трихинеллёз) на любой стадии заболевания.
+                        Лечение проводится по уникальной ,авторской методике,разработанной врачом ,столкнувшимся лично с
+                        этим коварным недугом.</p>
 
                     <div class="hero-buttons">
                         <button class="btn btn-primary btn-lg">
@@ -169,7 +225,7 @@
 
                     <div class="hero-stats">
                         <div class="stat">
-                            <div class="stat-number">11</div>
+                            <div class="stat-number">29</div>
                             <div class="stat-label">лет практики</div>
                         </div>
                         <div class="stat">
@@ -194,7 +250,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-label">Работаем</div>
-                            <div class="card-value">Более 10 лет!</div>
+                            <div class="card-value">Более 25 лет!</div>
                         </div>
                     </div>
 
@@ -234,7 +290,7 @@
                     <h3>Эхинококкоз и Альвеококкоз</h3>
                     <p>Заболевания вызванные паразитами из группы ленточных червей. Поражают внутренние органы
                         паразитными кистами</p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/echinococcosis.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card" id="arthritis">
@@ -246,7 +302,7 @@
                     <h3>Ревматоидный артрит</h3>
                     <p>Хроническое воспалительное заболевание суставов. Может поражать внутренние органы (почки, легкие,
                         печень)</p>
-                    <a href="templates/articles/rheumatism.html" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/rheumatoidArthritis.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card" id="helminthiasis">
@@ -269,10 +325,10 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <h3>Ревматизм и Полиартрит</h3>
+                    <h3>Полиартрит</h3>
                     <p>Воспалительное заболевание соединительной ткани, поражающее суставы и сердечно-сосудистую систему
                     </p>
-                    <a href="templates/articles/rheumatism.html" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/polyarthritis.html" class="service-link">Подробнее →</a>
                 </div>
 
                 <div class="service-card">
@@ -302,7 +358,7 @@
                     </div>
                     <h3>Другие заболевания</h3>
                     <p>Консультации по другим паразитарным и ревматологическим заболеваниям</p>
-                    <a href="#" class="service-link">Подробнее →</a>
+                    <a href="templates/articles/articles-all.html" class="service-link">Подробнее →</a>
                 </div>
             </div>
 
@@ -356,7 +412,7 @@
                             <div class="stat-text">Вылеченных пациентов</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-number-large">11</div>
+                            <div class="stat-number-large">29</div>
                             <div class="stat-text">Лет успешной практики</div>
                         </div>
                     </div>
@@ -369,7 +425,8 @@
                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                             <polyline points="22 4 12 14.01 9 11.01"></polyline>
                         </svg>
-                        <p>Лечение нетрадиционными методами под наблюдением дипломированных врачей традиционной медицины</p>
+                        <p>Лечение нетрадиционными методами под наблюдением дипломированных врачей традиционной медицины
+                        </p>
                     </div>
                 </div>
             </div>
@@ -393,7 +450,7 @@
                     <div class="doctor-info">
                         <h3>Эльфрентий Ли</h3>
                         <p class="specialty">Врач-паразитолог</p>
-                        <p class="experience">Более 10 лет опыта</p>
+                        <p class="experience">Более 25 лет опыта</p>
                         <p class="education">Высшая Школа Народной Медицины</p>
                         <button class="btn btn-outline btn-primary">Записаться на приём</button>
                     </div>
@@ -804,7 +861,7 @@
                         onerror="this.style.display='none'">
                     <p class="footer-description">
                         Специализируемся на лечении паразитарных заболеваний и ревматологических недугов. Уникальные
-                        авторские методики под контролем дипломированных врачей. 11 лет успешной практики.
+                        авторские методики под контролем дипломированного врача. Более 25 лет успешной практики.
                     </p>
                     <div class="footer-contacts">
                         <p class="contact-title">Контакты:</p>
@@ -840,10 +897,10 @@
                     <h4>Специализация</h4>
                     <ul>
                         <li><a href="templates/articles/echinococcosis.html">Эхинококкоз и Альвеококкоз</a></li>
-                        <li><a href="templates/articles/rheumatoidArthritis.html">Ревматоидный артрит</a></li>
                         <li><a href="templates/articles/helminthiasis.html">Гельминтоз</a></li>
-                        <li><a href="templates/articles/rheumatism.html">Ревматизм</a></li>
                         <li><a href="templates/articles/giardiasis.html">Лямблиоз и др. паразиты</a></li>
+                        <li><a href="templates/articles/rheumatoidArthritis.html">Ревматоидный артрит</a></li>
+                        <li><a href="templates/articles/polyarthritis.html">Полиартрит</a></li>
                     </ul>
                 </div>
 
@@ -866,6 +923,8 @@
                         <li><a href="#services">Подготовка к приёму</a></li>
                         <li><a href="templates/services.html">Программы лечения</a></li>
                         <li><a href="templates/feedback.html">Отзывы</a></li>
+                        <li><a href="templates/faq.html">Вопрос-ответ (FAQ)</a></li>
+                        <li><a href="templates/price.html">Прайс-лист</a></li>
                     </ul>
                 </div>
             </div>
